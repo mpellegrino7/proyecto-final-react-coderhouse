@@ -1,7 +1,7 @@
 import React from 'react'
-import logo from '../assets/logo.png'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import logo from '../../assets/logo.png'
 import './NavBar.css'
+import CartWidget from '../CartWidget/CartWidget'
 
 const NavBar = () => {
   return (
@@ -15,7 +15,7 @@ const NavBar = () => {
           <a href="">Categoría 3</a>
           <a href="">Categoría 4</a>
         </nav>
-        <ShoppingCartIcon sx={{ fontSize: 40 }} />
+        <CartWidget />
       </header>
     </>
   )
