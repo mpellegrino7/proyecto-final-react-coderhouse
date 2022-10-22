@@ -1,11 +1,11 @@
 const Item = ({ product }) => {
   return (
     <div>
-      <img src={product.imagen} w="40px" />
+      <img src={product.image} w="40px" />
 
-      <p>{product.nombre}</p>
+      <p>{product.title}</p>
 
-      <p>${product.precio}</p>
+      <p>${product.price}</p>
       <button>Ver Detalle</button>
     </div>
   )
