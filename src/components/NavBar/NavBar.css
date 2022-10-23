@@ -2,10 +2,13 @@ Header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: black;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: white;
 }
 
 img {
-  width: 4%;
+  width: 60%;
 }
 
 a {

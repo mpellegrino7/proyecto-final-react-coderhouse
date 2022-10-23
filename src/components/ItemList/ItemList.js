@@ -1,25 +1,13 @@
+import React from 'react'
+import './ItemList.css'
 import { Item } from '../Item/Item'
 
-const ItemList = ({ listProducts }) => {
+export const ItemList = ({ products }) => {
   return (
-    <>
-      <div style={styles.container}>
-        {listProducts.map((prod, i) => (
-          <Item key={'${prod.product}-${i}'} product={prod} />
-        ))}
-      </div>
-    </>
+    <div className="estilosItemList">
+      {products.map((product) => (
+        <Item key={product.id} product={product} />
+      ))}
+    </div>
   )
 }
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  },
-}
-
-export { ItemList }
