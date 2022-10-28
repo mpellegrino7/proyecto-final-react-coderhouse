@@ -4,7 +4,7 @@ import { Context } from '../CartContext/CartContext'
 import { Link } from 'react-router-dom'
 
 export const Cart = () => {
-  const { cart, removeItem } = useContext(Context)
+  const { cart, cantidad, removeItem, clear } = useContext(Context)
 
   return (
     <>
@@ -23,11 +23,17 @@ export const Cart = () => {
           {cart
             ? cart.map((producto) => (
                 <>
-                  <h2 key={producto.producto.id}>{producto.producto.title}</h2>
+                  <div key={producto.producto.id}>
+                    <h2>{producto.producto.title}</h2>
+                    <h2>{producto.precio}</h2>
+                    <h2>Cantidad: {cantidad}</h2>
 
-                  <button onClick={() => removeItem(producto.id)}>
-                    Borrar Producto
-                  </button>
+                    <button onClick={() => removeItem(producto.producto.id)}>
+                      Borrar Producto
+                    </button>
+                  </div>
+
+                  <button onClick={clear}>Borrar todo el Carrito</button>
                 </>
               ))
             : 'vacio'}

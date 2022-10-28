@@ -11,7 +11,7 @@ const CartProvider = ({ children }) => {
 
   useEffect(() => {
     let cantidad = 0
-    cart.forEach((producto) => (cantidad = cantidad + producto.qty))
+    cart.forEach((producto) => (cantidad = cantidad + producto.cantidad))
     setCantidad(cantidad)
   }, [cart])
 
@@ -29,7 +29,7 @@ const CartProvider = ({ children }) => {
 
   const removeItem = (id) => {
     const productoFiltrado = cart.filter((producto) => {
-      return producto.id !== id
+      return producto.producto.id !== id
     })
     setCart(productoFiltrado)
   }
