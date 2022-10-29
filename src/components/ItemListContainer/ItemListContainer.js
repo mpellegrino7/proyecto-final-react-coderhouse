@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { ItemList } from '../ItemList/ItemList'
 import { LinearProgress } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import { API } from '../../API/api'
+import { dataBase } from '../../firebase/Firebase'
+import { getDocs, collection, query, where } from 'firebase/firestore'
 
 const ItemListContainer = ({ greeting }) => {
   const { id } = useParams()
@@ -11,20 +12,28 @@ const ItemListContainer = ({ greeting }) => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    const url = id ? `${API.CATEGORY}${id}` : API.LIST
-    const getItems = async () => {
-      try {
-        const respuesta = await fetch(url)
-        const data = await respuesta.json()
-        setProducts(data)
-      } catch (err) {
-        console.error(err)
+    const collectionProductos = collection(dataBase, 'productos')
+    const queryProductos = query(
+      collectionProductos,
+      where('category', '==', 'womens clothing'),
+    )
+
+    getDocs(queryProductos)
+      .then((data) => {
+        const listaProductos = data.docs.map((productos) => {
+          return {
+            ...productos.data(),
+            id: productos.id,
+          }
+        })
+        setProducts(listaProductos)
+      })
+      .catch(() => {
         setError(true)
-      } finally {
+      })
+      .finally(() => {
         setLoading(false)
-      }
-    }
-    getItems()
+      })
   }, [id])
 
   return (

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { LinearProgress } from '@mui/material'
 import { ItemDetail } from '../ItemDetail/ItemDetail'
-import { API } from '../../API/api'
 import { useParams } from 'react-router-dom'
+import { dataBase } from '../../firebase/Firebase'
+import { doc, getDoc, collection } from 'firebase/firestore'
 
 const ItemDetailContainer = () => {
   const { id } = useParams()
@@ -11,20 +12,21 @@ const ItemDetailContainer = () => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    const url = `${API.PRODUCTO}${id}`
-    const getItem = async () => {
-      try {
-        const resp = await fetch(url)
-        const data = await resp.json()
-        setProduct({ ...data, stock: Math.floor(Math.random() * 20) })
-      } catch (error) {
-        console.error(error)
+    const collectionProductos = collection(dataBase, 'productos')
+    const docReferencia = doc(collectionProductos, id)
+    getDoc(docReferencia)
+      .then((result) => {
+        setProduct({
+          id: result.id,
+          ...result.data(),
+        })
+      })
+      .catch(() => {
         setError(true)
-      } finally {
+      })
+      .finally(() => {
         setLoading(false)
-      }
-    }
-    getItem()
+      })
   }, [id])
 
   return (
