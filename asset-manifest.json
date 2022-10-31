@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/proyecto-final-react-coderhouse/static/css/main.06a0b571.css",
+    "main.js": "/proyecto-final-react-coderhouse/static/js/main.1375009c.js",
+    "index.html": "/proyecto-final-react-coderhouse/index.html",
+    "main.06a0b571.css.map": "/proyecto-final-react-coderhouse/static/css/main.06a0b571.css.map",
+    "main.1375009c.js.map": "/proyecto-final-react-coderhouse/static/js/main.1375009c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.06a0b571.css",
+    "static/js/main.1375009c.js"
+  ]
+}
