@@ -38,7 +38,7 @@ const CartProvider = ({ children }) => {
         return producto.producto.id !== id
       }),
     )
-    setCantidad(cantidad - productoEnCarrito.qtyProduct)
+    setCantidad(cantidad - productoEnCarrito.cantidadProducto)
     setTotal(
       total -
         productoEnCarrito.cantidadProducto * productoEnCarrito.producto.price,

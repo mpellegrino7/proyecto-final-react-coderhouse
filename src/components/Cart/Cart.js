@@ -30,9 +30,8 @@ export const Cart = () => {
       clear()
     })
   }
-
   const actualizarStock = (producto) => {
-    const updateStock = doc(dataBase, 'productos', producto.id)
+    const updateStock = doc(dataBase, 'productos', producto.producto.id)
     updateDoc(updateStock, {
       stock: producto.producto.stock - producto.cantidadProducto,
     })
