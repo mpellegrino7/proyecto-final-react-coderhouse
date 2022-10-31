@@ -15,8 +15,8 @@ const NavBar = () => {
           <h1>Mi Tienda</h1>
         </Link>
         <nav>
-          <NavLink to="/category/women's clothing">Mujeres</NavLink>
-          <NavLink to="/category/men's clothing">Hombres</NavLink>
+          <NavLink to="/category/womens clothing">Mujeres</NavLink>
+          <NavLink to="/category/mens clothing">Hombres</NavLink>
           <NavLink to="/category/jewelery">Accesorios</NavLink>
         </nav>
         <Link to="/cart">

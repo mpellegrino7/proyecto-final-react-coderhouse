@@ -1,46 +1,62 @@
 import React from 'react'
 import { createContext } from 'react'
 import { useState } from 'react'
-import { useEffect } from 'react'
 
 export const Context = createContext()
 
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([])
   const [cantidad, setCantidad] = useState(0)
+  const [total, setTotal] = useState(0)
 
-  useEffect(() => {
-    let cantidad = 0
-    cart.forEach((producto) => (cantidad = cantidad + producto.cantidad))
-    setCantidad(cantidad)
-  }, [cart])
-
-  const addItem = (producto, cantidad) => {
-    const estaEnLista = cart.findIndex(
-      (itemCart) => itemCart.producto.id === producto.id,
-    )
-    if (estaEnLista !== -1) {
-      const newCart = cart.filter((item) => item !== cart[estaEnLista])
-      setCart([{ producto, cantidad, ...newCart }])
+  const addItem = (producto, cantidadProducto) => {
+    if (isInCart(producto.id)) {
+      setCart(
+        cart.map((producto) => {
+          if (producto.producto.id === producto.id) {
+            return {
+              producto: producto.producto,
+              cantidadProducto: producto.cantidadProducto + cantidadProducto,
+            }
+          }
+          return producto
+        }),
+      )
     } else {
-      setCart([...cart, { producto, cantidad }])
+      setCart([...cart, { producto, cantidadProducto }])
     }
+    setCantidad(cantidad + cantidadProducto)
+    setTotal(total + cantidadProducto * producto.price)
   }
 
   const removeItem = (id) => {
-    const productoFiltrado = cart.filter((producto) => {
-      return producto.producto.id !== id
-    })
-    setCart(productoFiltrado)
+    const productoEnCarrito = cart.find(
+      (producto) => producto.producto.id === id,
+    )
+    setCart(
+      cart.filter((producto) => {
+        return producto.producto.id !== id
+      }),
+    )
+    setCantidad(cantidad - productoEnCarrito.qtyProduct)
+    setTotal(
+      total -
+        productoEnCarrito.cantidadProducto * productoEnCarrito.producto.price,
+    )
   }
+
+  const isInCart = (id) => cart.some((producto) => producto.producto.id === id)
 
   const clear = () => {
     setCart([])
+    setCantidad(0)
+    setTotal(0)
   }
 
   return (
     <Context.Provider
       value={{
+        total,
         cantidad,
         cart,
         addItem,

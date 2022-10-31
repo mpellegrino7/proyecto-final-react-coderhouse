@@ -20,10 +20,10 @@ const ItemListContainer = ({ greeting }) => {
 
     getDocs(queryProductos)
       .then((data) => {
-        const listaProductos = data.docs.map((productos) => {
+        const listaProductos = data.docs.map((producto) => {
           return {
-            ...productos.data(),
-            id: productos.id,
+            ...producto.data(),
+            id: producto.id,
           }
         })
         setProducts(listaProductos)
@@ -38,6 +38,7 @@ const ItemListContainer = ({ greeting }) => {
 
   return (
     <>
+      <h2>{greeting}</h2>
       {loading ? (
         <LinearProgress />
       ) : error ? (

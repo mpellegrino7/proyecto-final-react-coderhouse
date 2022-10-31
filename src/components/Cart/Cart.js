@@ -2,9 +2,41 @@ import React from 'react'
 import { useContext } from 'react'
 import { Context } from '../CartContext/CartContext'
 import { Link } from 'react-router-dom'
+import { dataBase } from '../../firebase/Firebase'
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  updateDoc,
+} from 'firebase/firestore'
+import userInfo from '../userInfo/userInfo'
 
 export const Cart = () => {
-  const { cart, cantidad, removeItem, clear } = useContext(Context)
+  const { cart, removeItem, clear, total } = useContext(Context)
+
+  const finalizarCompra = () => {
+    const ventasCollection = collection(dataBase, 'productosVendidos')
+    addDoc(ventasCollection, {
+      buyer: userInfo(),
+      productos: cart,
+      date: serverTimestamp(),
+      total,
+    }).then((result) => {
+      console.log(result.id)
+      cart.forEach((producto) => {
+        actualizarStock(producto)
+      })
+      clear()
+    })
+  }
+
+  const actualizarStock = (producto) => {
+    const updateStock = doc(dataBase, 'productos', producto.id)
+    updateDoc(updateStock, {
+      stock: producto.producto.stock - producto.cantidadProducto,
+    })
+  }
 
   return (
     <>
@@ -25,15 +57,20 @@ export const Cart = () => {
                 <>
                   <div key={producto.producto.id}>
                     <h2>{producto.producto.title}</h2>
-                    <h2>{producto.precio}</h2>
-                    <h2>Cantidad: {cantidad}</h2>
+                    <h2>${producto.producto.price}</h2>
+                    <h2>Cantidad: {producto.cantidadProducto}</h2>
 
                     <button onClick={() => removeItem(producto.producto.id)}>
                       Borrar Producto
                     </button>
                   </div>
-
-                  <button onClick={clear}>Borrar todo el Carrito</button>
+                  <div>
+                    <h2>Total: {total}</h2>
+                    <button onClick={clear}>Borrar todo el Carrito</button>
+                    <button onClick={finalizarCompra}>
+                      Finalizar la Compra
+                    </button>
+                  </div>
                 </>
               ))
             : 'vacio'}
